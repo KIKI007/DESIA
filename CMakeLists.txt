@@ -1,63 +1,93 @@
-cmake_minimum_required(VERSION 3.1)
-project(DESIA)
+# we need cmake >= 3.11 to support fetch_content that downloads dependencies
+cmake_minimum_required(VERSION 3.11)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set (CMAKE_CXX_STANDARD 11)
+# set name of the project
+project(ConeJoint)
 
-# libigl
-option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
-option(LIBIGL_WITH_ANTTWEAKBAR      "Use AntTweakBar"    OFF)
-option(LIBIGL_WITH_CGAL             "Use CGAL"           OFF)
-option(LIBIGL_WITH_COMISO           "Use CoMiso"         OFF)
-option(LIBIGL_WITH_CORK             "Use Cork"           OFF)
-option(LIBIGL_WITH_EMBREE           "Use Embree"         OFF)
-option(LIBIGL_WITH_LIM              "Use LIM"            OFF)
-option(LIBIGL_WITH_MATLAB           "Use Matlab"         OFF)
-option(LIBIGL_WITH_MOSEK            "Use MOSEK"          OFF)
-option(LIBIGL_WITH_NANOGUI          "Use Nanogui menu"   ON)
-option(LIBIGL_WITH_OPENGL           "Use OpenGL"         ON)
-option(LIBIGL_WITH_OPENGL_GLFW      "Use GLFW"           ON)
-option(LIBIGL_WITH_PNG              "Use PNG"            OFF)
-option(LIBIGL_WITH_PYTHON           "Use Python"         OFF)
-option(LIBIGL_WITH_TETGEN           "Use Tetgen"         OFF)
-option(LIBIGL_WITH_TRIANGLE         "Use Triangle"       OFF)
-option(LIBIGL_WITH_VIEWER           "Use OpenGL viewer"  ON)
-option(LIBIGL_WITH_XML              "Use XML"            OFF)
-option(LIBIGL_WITH_SHAPEOP          "Use ShapeOp"        OFF)
-option(LIBIGL_WITH_LIBCCD          "Use LibCCD"          OFF)
+set(CMAKE_CXX_STANDARD 17)
 
-################################################################################
+# data folder path
+set(CRL_DATA_FOLDER
+        "\"${CMAKE_CURRENT_LIST_DIR}/data\""
+        CACHE STRING ""
+        )
 
-#add_subdirectory(libigl)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libigl/shared/cmake")
-include(libigl)
-add_definitions(-DLIBIGL_PATH="${LIBIGL_INCLUDE_DIR}/..")
+# -----------------------------------------------------------------------------
+# options
+# -----------------------------------------------------------------------------
 
+option(CRL_BASIC_BUILD_APPS "Build crl-basic example apps." ON)
+option(CONE_JOINT_IPOPT "USE IPOPT." OFF)
 
-### add boost
-set(Boost_USE_STATIC_LIBS OFF)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost 1.66.0)
+# -----------------------------------------------------------------------------
+# macro and functions
+# -----------------------------------------------------------------------------
 
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
+# create static library named LIB_NAME
+function(
+        create_library #
+        LIB_NAME #
+        SOURCE #
+        DEPENDENCY #
+        INCLUDE_DIRS #
+        LINK_LIBS #
+        COMPILE_DEFINITIONS #
+)
+    add_library(${LIB_NAME} STATIC ${SOURCE})
+    add_dependencies(${LIB_NAME} ${DEPENDENCY})
+    target_include_directories(${LIB_NAME} ${INCLUDE_DIRS})
+    target_link_libraries(${LIB_NAME} ${LINK_LIBS})
 
-##add Mosek
-find_package(MOSEK REQUIRED)
+    if(COMPILE_DEFINITIONS)
+        # scope is PUBLIC so these definitions are propagated
+        target_compile_definitions(${LIB_NAME} ${COMPILE_DEFINITIONS})
+    endif()
 
-# Add your project file
-file(GLOB SRCFILES
-        src/*.cpp
-        src/*.h
-        src/Voxel/*.cpp
-        src/Voxel/*.h
-        src/ContactGraph/*.h
-        src/ContactGraph/*.cpp)
-add_executable(${PROJECT_NAME}_bin ${SRCFILES})
-target_include_directories(${PROJECT_NAME}_bin PUBLIC SYSTEM ${MOSEK_INCLUDE_DIRS})
-target_link_libraries(
-        ${PROJECT_NAME}_bin
-        igl::core
-        igl::viewer ${Boost_LIBRARIES} ${MOSEK_LIBRARIES})
+    # For solution explorer in visual studios
+    set_property(TARGET ${LIB_NAME} PROPERTY FOLDER "Libs")
+endfunction()
+
+# create executable named APP_NAME
+function(
+        create_app #
+        APP_NAME #
+        SOURCE #
+        DEPENDENCY #
+        INCLUDE_DIRS #
+        LINK_LIBS #
+        COMPILE_DEFINITIONS #
+)
+
+    add_executable(${APP_NAME} ${SOURCE})
+    add_dependencies(${APP_NAME} ${DEPENDENCY})
+    target_include_directories(${APP_NAME} ${INCLUDE_DIRS})
+    target_link_libraries(${APP_NAME} ${LINK_LIBS})
+
+    if(COMPILE_DEFINITIONS)
+        target_compile_definitions(${APP_NAME} ${COMPILE_DEFINITIONS})
+    endif()
+
+    # For solution explorer in visual studios
+    set_property(TARGET ${APP_NAME} PROPERTY FOLDER "Apps")
+endfunction()
+
+# -----------------------------------------------------------------------------
+# code
+# -----------------------------------------------------------------------------
+
+# thirdparty code
+add_subdirectory(ext)
+
+# our code
+add_subdirectory(src)
+
+# -----------------------------------------------------------------------------
+# clean up solutions view
+# -----------------------------------------------------------------------------
+if(WIN32)
+    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+    set_target_properties(glfw PROPERTIES FOLDER Ext)
+    set_target_properties(glad PROPERTIES FOLDER Ext)
+    set_target_properties(imgui PROPERTIES FOLDER Ext)
+    set_target_properties(tinyobjloader PROPERTIES FOLDER Ext)
+endif(WIN32)
