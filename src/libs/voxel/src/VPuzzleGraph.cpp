@@ -69,7 +69,7 @@ namespace voxel{
         //!! P1 -> P2, P3 -> P0
 
         pPart Rpart = parts_.back();
-        vector<VPuzFECycle> candidate_list;
+        std::vector<VPuzFECycle> candidate_list;
 
         for(int i0 = 0; i0 < Rpart->neighbor_[XYZ].in_.size(); i0++)
         {
@@ -132,7 +132,7 @@ namespace voxel{
         //P1 -> P -> P2 -> P1
 
         pPart Rpart = parts_.back();
-        vector<VPuzFECycle> list;
+        std::vector<VPuzFECycle> list;
 
         //Single joint
         //P0 -> P -> P1 -> P0
@@ -170,7 +170,7 @@ namespace voxel{
         //std::cout << "XYZ " << XYZ << ": \t" << list.size() << ", " << filter.candidate_.size() <<"\n";
     }
 
-    void VPuzzleGraph::do_separation(vector<VPuzRemainVolumePartitionDat> &output)
+    void VPuzzleGraph::do_separation(std::vector<VPuzRemainVolumePartitionDat> &output)
     {
         // build dist grap
         for(int XYZ = 0 ;XYZ < 3; XYZ++)
@@ -198,7 +198,7 @@ namespace voxel{
         }
 
         //do combination between XYZ joints
-        vector<VPuzCycleXYZDat> plans_cycleXYZ;
+        std::vector<VPuzCycleXYZDat> plans_cycleXYZ;
         compute_combination_of_cycleXYZ(plans_cycleXYZ);
         std::cout << "CycleXYZ plan:\t" << plans_cycleXYZ.size() << std::endl;
 
@@ -208,7 +208,7 @@ namespace voxel{
     }
 
     void VPuzzleGraph::compute_combination_of_cycleXYZ(
-            vector<VPuzCycleXYZDat> &plans_cycleXYZ) {
+            std::vector<VPuzCycleXYZDat> &plans_cycleXYZ) {
 
         //63 type
         //00(Z) 00(Y) 00(X)
@@ -240,7 +240,7 @@ namespace voxel{
                 max_joint_each_direction = pow(max_joint_combination, 1.0 / power);
             }
 
-            vector<VPuzFECycle> plan[3]; //On each direction, choose K direction and do combination
+            std::vector<VPuzFECycle> plan[3]; //On each direction, choose K direction and do combination
 
             for(int XYZ = 0; XYZ < 3; XYZ ++)
             {
@@ -283,7 +283,7 @@ namespace voxel{
                 binary_state = binary_state >> 2;
             }
 
-            vector<VPuzFE<VPuzCycleXYZDat>> canididate_list;
+            std::vector<VPuzFE<VPuzCycleXYZDat>> canididate_list;
             //compute all combination
             for(int i = 0; i < plan[0].size(); i++)
             {
@@ -327,16 +327,16 @@ namespace voxel{
         return;
     }
 
-    void VPuzzleGraph::compute_remain_volume_partition_plans(vector<VPuzRemainVolumePartitionDat> &output,
-                                                             const vector<VPuzCycleXYZDat> &plans_cycleXYZ)
+    void VPuzzleGraph::compute_remain_volume_partition_plans(std::vector<VPuzRemainVolumePartitionDat> &output,
+                                                             const std::vector<VPuzCycleXYZDat> &plans_cycleXYZ)
     {
         for(int gp_plan_id = 0; gp_plan_id < plans_cycleXYZ.size(); gp_plan_id ++) {
             VPuzCycleXYZDat plan_cycleXYZ = plans_cycleXYZ[gp_plan_id];
 
-            vector<vector<VPuzFE<VoxelElement *>>> gr[2];
+            std::vector<std::vector<VPuzFE<VoxelElement *>>> gr[2];
             //gr[1][3] means : groupB 's Z direction partition plan
 
-            vector<int> require_blocking;
+            std::vector<int> require_blocking;
             for (int XYZ = 0; XYZ < 3; XYZ++)
             {
                 switch (plan_cycleXYZ.cycle_XYZ[XYZ].data_.type)
@@ -344,7 +344,7 @@ namespace voxel{
                     case PuzzleConnection_IN_OUT: {
                         for (int id = 0; id < 2; id++)
                         {
-                            gr[id].push_back(vector<VPuzFE<VoxelElement *>>());
+                            gr[id].push_back(std::vector<VPuzFE<VoxelElement *>>());
                             for (pEmt v: plan_cycleXYZ.cycle_XYZ[XYZ].data_.anchor_voxels_list[id]->data_)
                             {
                                 VPuzFE<VoxelElement *> vpfe;
@@ -359,7 +359,7 @@ namespace voxel{
                     case PuzzleConnection_OUT_IN: {
                         for (int id = 0; id < 2; id++)
                         {
-                            gr[id].push_back(vector<VPuzFE<VoxelElement *>>());
+                            gr[id].push_back(std::vector<VPuzFE<VoxelElement *>>());
                             for (pEmt v: plan_cycleXYZ.cycle_XYZ[XYZ].data_.anchor_voxels_list[id]->data_)
                             {
                                 VPuzFE<VoxelElement *> vpfe;
@@ -377,7 +377,7 @@ namespace voxel{
                         int jid[4] = {0, 1, 2, 3};
                         for (int id = 0; id < 4; id++)
                         {
-                            gr[gid[id]].push_back(vector<VPuzFE<VoxelElement *>>());
+                            gr[gid[id]].push_back(std::vector<VPuzFE<VoxelElement *>>());
                             for (pEmt v: plan_cycleXYZ.cycle_XYZ[XYZ].data_.anchor_voxels_list[jid[id]]->data_)
                             {
                                 VPuzFE<VoxelElement *> vpfe;
@@ -412,17 +412,17 @@ namespace voxel{
     }
 
     bool VPuzzleGraph::random_compute_voxel_partition_plan(VPuzRemainVolumePartitionDat &plan,
-                                                           vector<vector<VPuzFE<VoxelElement *>>> *gr,
-                                                           vector<int> &require_blocking)
+                                                           std::vector<std::vector<VPuzFE<VoxelElement *>>> *gr,
+                                                           std::vector<int> &require_blocking)
     {
         struct GroupVoxels
         {
-            vector<pEmt> candidates_;
+            std::vector<pEmt> candidates_;
 
             int group_id; //A:0 or B:1
         };
 
-        vector<GroupVoxels> task_list;
+        std::vector<GroupVoxels> task_list;
 
         std::map<int, bool> voxel_used;
         std::map<int, double> voxel_weight[2];
@@ -441,10 +441,10 @@ namespace voxel{
             }
         }
 
-        auto pop_smallest_group = [&](vector<GroupVoxels> &task_list) -> GroupVoxels
+        auto pop_smallest_group = [&](std::vector<GroupVoxels> &task_list) -> GroupVoxels
         {
             int minimum_group_num = task_list.front().candidates_.size();
-            vector<vector<GroupVoxels>::iterator> candidate_list;
+            std::vector<std::vector<GroupVoxels>::iterator> candidate_list;
             for(int id = 0; id < task_list.size(); id++)
             {
                 if(task_list[id].candidates_.size() < minimum_group_num)
@@ -468,12 +468,12 @@ namespace voxel{
             return group_picked;
         };
 
-        auto random_pick_voxel = [&](vector<pEmt> &candidate) -> pEmt
+        auto random_pick_voxel = [&](std::vector<pEmt> &candidate) -> pEmt
         {
             return candidate[rand() % candidate.size()];
         };
 
-        auto erase_used_voxel_from_list = [&](vector<GroupVoxels> &list, pEmt voxel, int gid) -> bool
+        auto erase_used_voxel_from_list = [&](std::vector<GroupVoxels> &list, pEmt voxel, int gid) -> bool
         {
             for(int id = 0; id < list.size(); id++)
             {
@@ -533,7 +533,7 @@ namespace voxel{
         return true;
     }
 
-    void VPuzzleGraph::remove_duplicate(vector<VoxelElement *> &gvoxel, vector<VoxelElement *> &group)
+    void VPuzzleGraph::remove_duplicate(std::vector<VoxelElement *> &gvoxel, std::vector<VoxelElement *> &group)
     {
         for(int id = 0; id < gvoxel.size(); id++)
         {

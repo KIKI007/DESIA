@@ -25,8 +25,9 @@ namespace voxel{
 
     struct VPuzInnerPartitionDat
     {
+        typedef VoxelElement* pEmt;
         pEmt anchor;
-        vector<pEmt> fixs;
+        std::vector<pEmt> fixs;
     };
 
 
@@ -35,6 +36,7 @@ namespace voxel{
 
         typedef VoxelizedPart* pPart;
         typedef Eigen::Vector3i Vector3i;
+        typedef VoxelElement* pEmt;
 
     public:
 
@@ -44,7 +46,7 @@ namespace voxel{
 
         void input(VoxelizedPuzzle *puzzle, VPuzRemainVolumePartitionDat &outside);
 
-        void output(vector<vector<pEmt>>  &remain_volume_voxel_lists);
+        void output(std::vector<std::vector<pEmt>>  &remain_volume_voxel_lists);
 
     public:
 
@@ -58,9 +60,9 @@ namespace voxel{
 
         bool expand_group_A_to_minimum_pieces(VPuzRemainVolumePartitionDat &full_partition_dat, int &disassembled_direction);
 
-        bool compute_remaining_volume(vector<pEmt> &group_B);
+        bool compute_remaining_volume(std::vector<pEmt> &group_B);
 
-        bool is_remaining_volume_connected(const vector<pEmt> &vlist);
+        bool is_remaining_volume_connected(const std::vector<pEmt> &vlist);
 
     public:
 
@@ -74,13 +76,13 @@ namespace voxel{
 
         VPuzRemainVolumePartitionDat outside_partition_dat_;
 
-        vector<VPuzInnerPartitionDat> inside_partition_dats_;
+        std::vector<VPuzInnerPartitionDat> inside_partition_dats_;
 
     public:
 
         std::unordered_map<int, bool> in_group_A_;
 
-        vector<pEmt> group_A_;
+        std::vector<pEmt> group_A_;
 
         int minimum_voxel_in_one_piece;
 

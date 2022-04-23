@@ -46,11 +46,12 @@ namespace voxel{
 
 //For storing voxel in order
 //could speed up operations during searching
-    typedef std::shared_ptr<VoxelElement> shared_pEmt;
-    typedef VoxelElement* pEmt;
-    using std::vector;
     class OrderedVElemList
     {
+    public:
+
+        typedef std::shared_ptr<VoxelElement> shared_pEmt;
+        typedef VoxelElement* pEmt;
 
     public:
 
@@ -64,7 +65,7 @@ namespace voxel{
         void push(pEmt voxel)
         {
 
-            vector<pEmt>::iterator find_up_it = std::upper_bound(data_.begin(), data_.end(), voxel, [&](const pEmt &a, const pEmt &b)
+            std::vector<pEmt>::iterator find_up_it = std::upper_bound(data_.begin(), data_.end(), voxel, [&](const pEmt &a, const pEmt &b)
             {
                 return a->order_ < b->order_;
             });
@@ -87,7 +88,7 @@ namespace voxel{
         }
 
     public:
-        vector<pEmt> data_;
+        std::vector<pEmt> data_;
     };
 }
 

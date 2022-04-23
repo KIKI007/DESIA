@@ -30,13 +30,13 @@ namespace voxel
         VPartNeighbor(){}
     public:
 
-        vector<pPart> in_;
+        std::vector<pPart> in_;
 
-        vector<pPart> out_;
+        std::vector<pPart> out_;
 
-        vector<std::shared_ptr<OrderedVElemList>> in_blocking_;
+        std::vector<std::shared_ptr<OrderedVElemList>> in_blocking_;
 
-        vector<std::shared_ptr<OrderedVElemList>> out_blocking_;
+        std::vector<std::shared_ptr<OrderedVElemList>> out_blocking_;
 
         void clear()
         {
@@ -51,6 +51,9 @@ namespace voxel
     public:
 
         typedef Eigen::Vector3i Vector3i;
+
+        typedef std::shared_ptr<VoxelElement> shared_pEmt;
+        typedef VoxelElement* pEmt;
 
     public:
 

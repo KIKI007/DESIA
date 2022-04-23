@@ -81,7 +81,7 @@ namespace voxel{
 
         num_part += 1;
 
-        vector<OrderedVElemList> vlist;
+        std::vector<OrderedVElemList> vlist;
         vlist.resize(num_part);
         for(shared_pEmt voxel : voxel_)
         {
@@ -285,11 +285,11 @@ namespace voxel{
         colorcoder_ = A.colorcoder_;
     }
 
-    void VoxelizedPuzzle::partition_part(pPart part, vector<pEmt> remove_portion)
+    void VoxelizedPuzzle::partition_part(pPart part, std::vector<pEmt> remove_portion)
     {
         //update
-        vector<pPart> update_list;
-        vector<bool> visited;
+        std::vector<pPart> update_list;
+        std::vector<bool> visited;
         visited.resize(parts_.size(), false);
         for(int XYZ = 0; XYZ < 3; XYZ++)
         {

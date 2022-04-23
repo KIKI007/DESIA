@@ -32,7 +32,7 @@ namespace voxel{
         // type 1: A.A1      -> B.B1
         // type 2: A.A1      <- B.B1
         // type 3: A          = B
-        vector<OrderedVElemList *> anchor_voxels_list;
+        std::vector<OrderedVElemList *> anchor_voxels_list;
 
         VPuzConnType type;
     };
@@ -58,9 +58,12 @@ namespace voxel{
 
     struct VPuzRemainVolumePartitionDat
     {
-        vector<pEmt> groupA; // final distribution of voxel in group A
+        typedef std::shared_ptr<VoxelElement> shared_pEmt;
+        typedef VoxelElement* pEmt;
 
-        vector<pEmt> groupB; // final distribution of voxel in group B
+        std::vector<pEmt> groupA; // final distribution of voxel in group A
+
+        std::vector<pEmt> groupB; // final distribution of voxel in group B
 
         int relation; //6 digits binary number
         //00 00 00
@@ -85,7 +88,7 @@ namespace voxel{
 
     public:
 
-        void insert(const vector<VPuzFE<ExtraData>> &list)
+        void insert(const std::vector<VPuzFE<ExtraData>> &list)
         {
             if(list.size() <= max_candidates_num_)
             {
@@ -105,7 +108,7 @@ namespace voxel{
             return;
         }
 
-        void random_choose(vector<VPuzFE<ExtraData>> &output, int num_pick)
+        void random_choose(std::vector<VPuzFE<ExtraData>> &output, int num_pick)
         {
             if(num_pick >= candidate_.size())
             {
@@ -126,7 +129,7 @@ namespace voxel{
                 return VPuzFE<ExtraData>();
             else
             {
-                vector<VPuzFE<ExtraData>> output;
+                std::vector<VPuzFE<ExtraData>> output;
                 random_choose(output, 1);
                 return output.front();
             }
@@ -134,7 +137,7 @@ namespace voxel{
 
     protected:
 
-        void compute_rand_according_to_weight(vector<VPuzFE<ExtraData>> &list)
+        void compute_rand_according_to_weight(std::vector<VPuzFE<ExtraData>> &list)
         {
             int minimum_weight = list.front().weight;
             for(VPuzFE<ExtraData> &em : list)
@@ -153,9 +156,9 @@ namespace voxel{
             }
         }
 
-        void keep_K_elements(vector<VPuzFE <ExtraData>> &list, int num_keep)
+        void keep_K_elements(std::vector<VPuzFE <ExtraData>> &list, int num_keep)
         {
-            vector<VPuzFE<ExtraData>> heap;
+            std::vector<VPuzFE<ExtraData>> heap;
             for(int id = 0; id < num_keep; id++)
             {
                 heap.push_back(list[id]);
@@ -183,7 +186,7 @@ namespace voxel{
 
     public:
 
-        vector<VPuzFE<ExtraData>> candidate_;
+        std::vector<VPuzFE<ExtraData>> candidate_;
 
         int max_candidates_num_;
 

@@ -28,16 +28,16 @@ namespace voxel{
 
         int part_num;
 
-        vector<std::shared_ptr<VPTreeNode>> child;
+        std::vector<std::shared_ptr<VPTreeNode>> child;
 
-        vector<std::string> sequences;
+        std::vector<std::string> sequences;
 
     public:
         //Auxiliary data
 
         std::shared_ptr<VPuzzleGraph> graph_;
 
-        std::shared_ptr<vector<VPuzRemainVolumePartitionDat>> graph_partition_plan;
+        std::shared_ptr<std::vector<VPuzRemainVolumePartitionDat>> graph_partition_plan;
 
         void clear_auxiliary()
         {
@@ -79,6 +79,8 @@ namespace voxel{
 
         typedef VoxelizedPart* pPart;
         typedef Eigen::Vector3i Vector3i;
+        typedef VoxelElement* pEmt;
+        typedef std::shared_ptr<VoxelElement> shared_pEmt;
 
     public:
 
@@ -120,7 +122,7 @@ namespace voxel{
 
         int num_parts_required_;
 
-        vector<int> each_part_num_voxels_;
+        std::vector<int> each_part_num_voxels_;
 
         std::shared_ptr<Timer> partioner_timer;
         std::shared_ptr<Timer> disassembly_timer;

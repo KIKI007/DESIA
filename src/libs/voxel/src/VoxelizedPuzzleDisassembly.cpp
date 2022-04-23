@@ -5,7 +5,7 @@
 #include "voxel/VoxelizedPuzzleDisassembly.h"
 
 namespace voxel{
-    void VoxelizedPuzzleDisassembly::init(VoxelizedPuzzle *puzzle, const vector<pEmt> &remains)
+    void VoxelizedPuzzleDisassembly::init(VoxelizedPuzzle *puzzle, const std::vector<pEmt> &remains)
     {
         puzzle_ = puzzle;
         pPart part = puzzle->parts_.back().get();
@@ -67,7 +67,7 @@ namespace voxel{
         return true;
     }
 
-    bool VoxelizedPuzzleDisassembly::bfs_check_disassembly(vector<std::string> &sequences)
+    bool VoxelizedPuzzleDisassembly::bfs_check_disassembly(std::vector<std::string> &sequences)
     {
         DisassemblyBFSNode u;
         u.move = Vector3i(0, 0, 0);

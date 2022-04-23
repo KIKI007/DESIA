@@ -33,7 +33,7 @@ namespace voxel{
     {
         if(map_access_ == nullptr) return;
 
-        vector<double> access_values;
+        std::vector<double> access_values;
         for(pEmt p: elist_.data_)
         {
             p->tmp_ = compute_num_neighbor(p);
@@ -116,7 +116,7 @@ namespace voxel{
         neighbor_[2] = a.neighbor_[2];
     }
 
-    pEmt VoxelizedPart::neighbor(int nrm, pEmt p) {
+    OrderedVElemList::pEmt VoxelizedPart::neighbor(int nrm, pEmt p) {
         Vector3i dX(0, 0, 0);
         switch(nrm)
         {
@@ -165,7 +165,7 @@ namespace voxel{
 
     }
 
-    pEmt VoxelizedPart::in_part(Vector3i pos) {
+    OrderedVElemList::pEmt VoxelizedPart::in_part(Vector3i pos) {
         if(pos[0] < 0 || pos[1] < 0 || pos[2] < 0) return nullptr;
         if(pos[0] >= size_[0] || pos[1] >= size_[1] || pos[2] >= size_[2]) return nullptr;
         auto iter = (*map_ip_).find(V2I(pos));

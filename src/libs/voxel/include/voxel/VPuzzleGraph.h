@@ -27,6 +27,10 @@ namespace voxel
 
         typedef VoxelizedPart* pPart;
 
+        typedef std::shared_ptr<VoxelElement> shared_pEmt;
+
+        typedef VoxelElement* pEmt;
+
     public:
 
         VPuzzleGraph(){
@@ -39,7 +43,7 @@ namespace voxel
 
     public:
 
-        void set_parts(const vector<pPart> &parts) {parts_ = parts; }
+        void set_parts(const std::vector<pPart> &parts) {parts_ = parts; }
 
         void set_size(Eigen::Vector3i size){size_ = size;}
 
@@ -51,39 +55,39 @@ namespace voxel
 
         void compute_two_loops_candidate_voxels(int XYZ, VPuzFilterCycle &filter);
 
-        void compute_combination_of_cycleXYZ(vector<VPuzCycleXYZDat> &plans_cycleXYZ);
+        void compute_combination_of_cycleXYZ(std::vector<VPuzCycleXYZDat> &plans_cycleXYZ);
 
-        void compute_remain_volume_partition_plans(vector<VPuzRemainVolumePartitionDat> &voxel_partition_plan,
-                                                   const vector<VPuzCycleXYZDat> &combination_graph_partition_plan);
+        void compute_remain_volume_partition_plans(std::vector<VPuzRemainVolumePartitionDat> &voxel_partition_plan,
+                                                   const std::vector<VPuzCycleXYZDat> &combination_graph_partition_plan);
 
-        void do_separation(vector<VPuzRemainVolumePartitionDat> &output);
+        void do_separation(std::vector<VPuzRemainVolumePartitionDat> &output);
 
     public:
 
         bool random_compute_voxel_partition_plan(VPuzRemainVolumePartitionDat &plan,
-                                                 vector<vector<VPuzFE<VoxelElement *>>> *gr,
-                                                 vector<int> &require_blocking);
+                                                 std::vector<std::vector<VPuzFE<VoxelElement *>>> *gr,
+                                                 std::vector<int> &require_blocking);
 
-        void random_pick_voxels_in_a_group(vector<vector<VPuzFE<VoxelElement *>>> &gr,
-                                           vector<VoxelElement *> &gvoxel);
+        void random_pick_voxels_in_a_group(std::vector<std::vector<VPuzFE<VoxelElement *>>> &gr,
+                                           std::vector<VoxelElement *> &gvoxel);
 
     public:
 
-        void exhaust_compute_voxel_partition_plan(vector<VPuzRemainVolumePartitionDat> &plans,
-                                                  vector<vector<VPuzFE<VoxelElement *>>> *gr,
+        void exhaust_compute_voxel_partition_plan(std::vector<VPuzRemainVolumePartitionDat> &plans,
+                                                  std::vector<std::vector<VPuzFE<VoxelElement *>>> *gr,
                                                   int relation);
 
-        void dfs_compute_voxel_partition_plan(vector<VPuzRemainVolumePartitionDat> &plans,
-                                              vector<vector<VPuzFE<VoxelElement *>>> *gr,
+        void dfs_compute_voxel_partition_plan(std::vector<VPuzRemainVolumePartitionDat> &plans,
+                                              std::vector<std::vector<VPuzFE<VoxelElement *>>> *gr,
                                               int relation);
 
     public:
 
-        void remove_duplicate(vector<VoxelElement *> &gvoxel, vector<VoxelElement *> &group);
+        void remove_duplicate(std::vector<VoxelElement *> &gvoxel, std::vector<VoxelElement *> &group);
 
     public:
 
-        vector<pPart> parts_;
+        std::vector<pPart> parts_;
 
         MatrixXi dist_graph[3];
 

@@ -23,6 +23,8 @@ namespace voxel
         typedef Eigen::MatrixXi MatrixXi;
         typedef VoxelizedPart* pPart;
         typedef Eigen::Vector3i Vector3i;
+        typedef std::shared_ptr<VoxelElement> shared_pEmt;
+        typedef VoxelElement* pEmt;
 
     public:
 
@@ -67,7 +69,7 @@ namespace voxel
         // Edge also have the information of the voxel which produces this relation
         void build_part_connection(pPart part);
 
-        void partition_part(pPart part, vector<pEmt> remove_portion);
+        void partition_part(pPart part, std::vector<pEmt> remove_portion);
 
         void update_part_connection(pPart part);
 
@@ -98,9 +100,9 @@ namespace voxel
 
         int Nx, Ny, Nz;
 
-        vector<shared_pPart> parts_;
+        std::vector<shared_pPart> parts_;
 
-        vector<shared_pEmt> voxel_;
+        std::vector<shared_pEmt> voxel_;
 
     public:
 

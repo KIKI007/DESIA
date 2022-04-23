@@ -96,7 +96,7 @@ namespace voxel
             partioner.input(node->puzzle_.get(), plan);
 
             //get remaining_volume_voxel_lists;
-            vector<vector<pEmt>> remaining_volume_voxel_lists;
+            std::vector<std::vector<pEmt>> remaining_volume_voxel_lists;
             partioner.output(remaining_volume_voxel_lists);
             partioner_timer->end();
 
@@ -197,7 +197,7 @@ namespace voxel
 
         plan.groupA.clear();
         plan.groupA.push_back(top_voxel);
-        vector<vector<pEmt>> remaining_volume_voxel_lists;
+        std::vector<std::vector<pEmt>> remaining_volume_voxel_lists;
         //remaining_volume_voxel_lists.push_back(plan.groupA);
 
         int part_num_voxels = each_part_num_voxels_[node->part_num];
@@ -247,7 +247,7 @@ namespace voxel
         node->graph_ = std::make_shared<VPuzzleGraph>(VPuzzleGraph());
 
         //add parts
-        vector<pPart> part_list;
+        std::vector<pPart> part_list;
         int num_parts = node->puzzle_->get_part_num();
         for (int id = 0; id < num_parts; id++) {
             part_list.push_back(node->puzzle_->parts_[id].get());
@@ -262,7 +262,7 @@ namespace voxel
         node->child.clear();
 
         //generate partition plan
-        node->graph_partition_plan = std::make_shared<vector<VPuzRemainVolumePartitionDat>>();
+        node->graph_partition_plan = std::make_shared<std::vector<VPuzRemainVolumePartitionDat>>();
         node->graph_->do_separation(*node->graph_partition_plan);
 
         return;

@@ -20,7 +20,7 @@ namespace voxel{
 
     public:
 
-        vector<std::string> sequences;
+        std::vector<std::string> sequences;
         Vector3i move;
 
         void move_one_step(Vector3i direct)
@@ -53,16 +53,18 @@ namespace voxel{
 
         typedef VoxelizedPart* pPart;
 
+        typedef VoxelElement* pEmt;
+
     public:
 
-        void set_puzzle(VoxelizedPuzzle* puzzle, const vector<pEmt>& remains)
+        void set_puzzle(VoxelizedPuzzle* puzzle, const std::vector<pEmt>& remains)
         {
             init(puzzle, remains);
         }
 
     public:
 
-        void init(VoxelizedPuzzle* puzzle, const vector<pEmt>& remains);
+        void init(VoxelizedPuzzle* puzzle, const std::vector<pEmt>& remains);
 
     public:
 
@@ -70,7 +72,7 @@ namespace voxel{
 
         bool check_disassembly_in_one_direction(Vector3i move, Vector3i direct);
 
-        bool bfs_check_disassembly(vector<std::string> &sequences);
+        bool bfs_check_disassembly(std::vector<std::string> &sequences);
 
     public:
 

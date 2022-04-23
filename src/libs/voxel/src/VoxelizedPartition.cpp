@@ -23,13 +23,13 @@ namespace voxel{
         outside_partition_dat_ = outside;
     }
 
-    void VoxelizedPartition::output(vector<vector<pEmt>>  &remain_volume_voxel_lists) {
+    void VoxelizedPartition::output(std::vector<std::vector<pEmt>>  &remain_volume_voxel_lists) {
 
         //std::cout << "find_inner_partition" << std::endl;
         find_inner_partition(outside_partition_dat_.relation);
 
-        VPuzFilter<std::shared_ptr<vector<pEmt>>> filter;
-        vector<VPuzFE<std::shared_ptr<vector<pEmt>>>> candidate_list;
+        VPuzFilter<std::shared_ptr<std::vector<pEmt>>> filter;
+        std::vector<VPuzFE<std::shared_ptr<std::vector<pEmt>>>> candidate_list;
 
         for(VPuzInnerPartitionDat inner_dat : inside_partition_dats_)
         {
@@ -50,10 +50,10 @@ namespace voxel{
 
             if(group_A_.size() >= minimum_voxel_in_one_piece && group_A_.size() <= maximum_voxel_in_one_piece)
             {
-                std::shared_ptr<vector<pEmt>> group_B = std::make_shared<vector<pEmt >>();
+                std::shared_ptr<std::vector<pEmt>> group_B = std::make_shared<std::vector<pEmt >>();
                 if(compute_remaining_volume(*group_B))
                 {
-                    VPuzFE < std::shared_ptr<vector<pEmt>>> ve;
+                    VPuzFE < std::shared_ptr<std::vector<pEmt>>> ve;
                     ve.data_ = group_B;
                     ve.weight = 0;
                     for(int id = 0; id < group_A_.size(); id++)
@@ -160,7 +160,7 @@ namespace voxel{
 
 
         //pickup
-        vector<VPuzFE<VPuzInnerPartitionDat>> list;
+        std::vector<VPuzFE<VPuzInnerPartitionDat>> list;
         for(int id = 0; id < inside_partition_dats_.size(); id++)
         {
             VPuzFE<VPuzInnerPartitionDat> ve;
@@ -206,12 +206,12 @@ namespace voxel{
 
         std::unordered_map<int, int> map_voxel_group_id;
         std::unordered_map<int, int> map_prev_id;
-        vector<int> group_present_id;
+        std::vector<int> group_present_id;
 
         map_voxel_group_id.clear(); map_prev_id.clear();
 
         auto cmp = [&](const VoxelBFSNode &a, const VoxelBFSNode &b){return a.weight > b.weight;};
-        std::priority_queue<VoxelBFSNode, vector<VoxelBFSNode>, decltype(cmp) > queue(cmp);
+        std::priority_queue<VoxelBFSNode, std::vector<VoxelBFSNode>, decltype(cmp) > queue(cmp);
 
         //Group A
         for(int id = 0; id < full_partition_dat.groupA.size(); id++)
@@ -318,7 +318,7 @@ namespace voxel{
     bool VoxelizedPartition::maintain_disassemblability(int relation, VPuzRemainVolumePartitionDat &full_partition_dat, int &disassembled_direction)
     {
         pPart  part = puzzle_->parts_.back().get();
-        vector<VPuzRemainVolumePartitionDat> disassemblable_plan;
+        std::vector<VPuzRemainVolumePartitionDat> disassemblable_plan;
         std::unordered_map<int, int> visited;
 
         //Group A
@@ -425,7 +425,7 @@ namespace voxel{
         if(disassemblable_plan.empty())
             return false;
 
-        vector<VPuzFE <VPuzRemainVolumePartitionDat>> list;
+        std::vector<VPuzFE <VPuzRemainVolumePartitionDat>> list;
         for(int id = 0; id < disassemblable_plan.size(); id++)
         {
             VPuzFE <VPuzRemainVolumePartitionDat> ve;
@@ -460,7 +460,7 @@ namespace voxel{
 
             auto cmp = [&](const VoxelBFSNode &a, const VoxelBFSNode &b){return a.weight > b.weight;};
 
-            std::priority_queue<VoxelBFSNode, vector<VoxelBFSNode>, decltype(cmp) > queue(cmp);
+            std::priority_queue<VoxelBFSNode, std::vector<VoxelBFSNode>, decltype(cmp) > queue(cmp);
 
             std::unordered_map<int, int> visited;
 
@@ -468,7 +468,7 @@ namespace voxel{
             {
                 double percentage_choice_rate = 0.9;
                 int rand_range = 1000;
-                vector<VoxelBFSNode> discard_list;
+                std::vector<VoxelBFSNode> discard_list;
                 VoxelBFSNode u;
                 while(!queue.empty())
                 {
@@ -494,7 +494,7 @@ namespace voxel{
 
             auto add_whole_line_voxel = [&](pEmt voxel, Vector3i direction) -> bool
             {
-                vector<VoxelBFSNode> add_list;
+                std::vector<VoxelBFSNode> add_list;
                 Vector3i pos = voxel->pos_;
                 do{
                     auto find_it = visited.find(voxel->order_);
@@ -579,7 +579,7 @@ namespace voxel{
             return  true;
     }
 
-    bool VoxelizedPartition::compute_remaining_volume(vector<pEmt> &group_B) {
+    bool VoxelizedPartition::compute_remaining_volume(std::vector<pEmt> &group_B) {
 
         group_B.clear();
         pPart part = puzzle_->parts_.back().get();
@@ -627,7 +627,7 @@ namespace voxel{
         full_partition_dat = outer;
     }
 
-    bool VoxelizedPartition::is_remaining_volume_connected(const vector<pEmt> &vlist) {
+    bool VoxelizedPartition::is_remaining_volume_connected(const std::vector<pEmt> &vlist) {
 
         std::unordered_map<int, pEmt> map;
         std::unordered_map<int, bool> visited;
