@@ -1,28 +1,17 @@
 # DESIA sourse code
 Code for SIGGRAPH AISA 2018 Submission
- Note that this code is used for desinging interlocking voxelized structures.
-
-
-## System Requirement
-This code has been only tested in macOS High Sierra
+This code is only for designing interlocking voxelized structures.
 
 ## File organization
 There are two folders of this project:
 
-1. \DESIA: the sourse code of our program
-2. \Libigl: an older version of libigl, for rendering and UI.
-
-The input mode is in \DESIA\input_puz, which is in .puz format
+1. **\data**: the test input and output puzzle files.
+2. **\src**: the sourse code of our program.
 
 ## Extra Library
 1. Boost : <https://www.boost.org>
-2. Libigl* : <https://github.com/libigl/libigl>
-3. Eigen 3**: <http://eigen.tuxfamily.org/index.php?title=Main_Page>
 
-*: libigl changed its rendering system recently. Please use the older version we provided to avoid compiling error
-**: Eigen 3 is included in Libigl, just in case.
-
-## Compiling
+## Compiling on Mac
 1. Install **brew** on mac (https://brew.sh)
 2. Install **boost**: in terminal, typing **brew install boost**
 3. Use **Clion** IDE to compile the project: Download Clion(<https://www.jetbrains.com/clion/>). Use its **open project** to open the project (a cmake file) in /DESIA
@@ -40,5 +29,3 @@ The input mode is in \DESIA\input_puz, which is in .puz format
 ## Parameter
 1. 4x4x4 Solid Cube model, the maximum part number should not exceed 9
 2. 4x4x4 Hollowed Cube model, the maximum part number should not exceed 7
-
-###Thank you for your reviewing
