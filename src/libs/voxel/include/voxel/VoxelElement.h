@@ -6,7 +6,7 @@
 #define UNDERSTAND_INTERLOCK_VOXELELEMENT_H
 #include <Eigen/Dense>
 #include <vector>
-
+#include <memory>
 namespace voxel{
     class VoxelElement
     {
