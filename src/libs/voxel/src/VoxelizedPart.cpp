@@ -51,7 +51,7 @@ namespace voxel{
                 for(int kd = 0; kd < 6; kd++)
                 {
                     pEmt q = neighbor((1 << kd), p);
-                    if(q) access_values[jd] += std::powl(0.1, id) * q->tmp_;
+                    if(q) access_values[jd] += std::pow(0.1, (double)id) * q->tmp_;
                 }
             }
 
