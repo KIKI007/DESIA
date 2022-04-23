@@ -35,7 +35,6 @@ namespace voxel{
         {
             group_A_.clear();
             in_group_A_.clear();
-            time_t sta = std::clock();
             VPuzRemainVolumePartitionDat full_partition_dat;
 
             int disassembled_direction;
