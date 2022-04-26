@@ -13,7 +13,7 @@ DESIA
 
 .. begin_brief_description
 
-.. image:: https://github.com/EPFL-LGG/TopoLite/raw/master/resources/Teaser.png
+.. image:: https://github.com/EPFL-LGG/DESIA/raw/master/resources/project_teaser.png
         :alt: Teaser
         :align: center
 
