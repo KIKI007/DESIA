@@ -71,6 +71,7 @@ Usage
 5. Output the .puz file using the button **Write .puz**
 
 
-## Parameter
+Parameter
+-----------
 1. 4x4x4 Solid Cube model, the maximum part number should not exceed 9
 2. 4x4x4 Hollowed Cube model, the maximum part number should not exceed 7
