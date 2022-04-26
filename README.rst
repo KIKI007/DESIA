@@ -61,7 +61,8 @@ gcc >= 7.5.0 (C++ 17)
     $ make -j 16
 
 
-## Usage
+Usage
+-----------
 
 1. Read a .puz file in `\DESIA\data\input_puz`
 2. Choose the target number of interlocking parts by setting **Number of pieces**. the defaut is 7
