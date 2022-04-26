@@ -43,6 +43,7 @@ Xcode >= 11.5 (C++ 17)
 .. code-block:: bash
 
     $ brew install boost
+    
     $ mkdir build
     $ cd build
     $ cmake -DCMAKE_BUILD_TYPE=Release ..
