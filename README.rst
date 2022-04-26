@@ -11,6 +11,12 @@ DESIA
    :target: https://topolite.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
+.. begin_brief_description
+
+.. image:: https://github.com/EPFL-LGG/TopoLite/raw/master/resources/Teaser.png
+        :alt: Teaser
+        :align: center
+
 DESIA is an algorithm for generating voxelized interlocking assemblies.
 
 Abstract
@@ -43,7 +49,7 @@ Xcode >= 11.5 (C++ 17)
 .. code-block:: bash
 
     $ brew install boost
-    
+
     $ mkdir build
     $ cd build
     $ cmake -DCMAKE_BUILD_TYPE=Release ..
