@@ -4,8 +4,8 @@ DESIA
 |travis| |docs|
 
 .. |travis| image:: https://travis-ci.org/EPFL-LGG/TopoLite.svg?branch=master
-:target: https://travis-ci.org/github/EPFL-LGG/TopoLite
-:alt: Travis Build Status
+    :target: https://travis-ci.org/github/EPFL-LGG/TopoLite
+    :alt: Travis Build Status
 
 .. |docs| image:: https://readthedocs.org/projects/topolite/badge/?version=latest
    :target: https://topolite.readthedocs.io/en/latest/?badge=latest
